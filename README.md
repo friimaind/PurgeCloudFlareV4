@@ -1,28 +1,12 @@
-PurgeCloudFlare
-===============
+PurgeCloudFlareV4
+=================
 
-##Upgrade bug:
+##What is PurgeCloudFlareV4?
+This is a fork of PurgeCloudFlare created by Jason Carney: https://github.com/DashMedia/PurgeCloudFlare
 
-Currently upgradeing the extra will cause the settings for `cf_api_key` and `cf_email` to be reset, this will be fixed at some point by using an actual build script instead of relying on the theme packager
+##Why a fork?
+Because the good original PurgeCloudFlare uses an outdated version of CloudFlare API which will be discontinued on Nov 2016.
+The original project seems to be not maintained anymore and I would like to share my code with other MODX developers who would like to use CloudFlare CDN.
 
-##Setup Directions:
-
-Goto System Settings and update the following:
-
-`cf_api_key` = your CloudFlare api key, this is visible on the Account tab of CloudFlare https://www.cloudflare.com/my-account
-
-`cf_email`   = The email address associated with the account (the one you use to log in to CloudFlare)
-
-Please note that PurgeCloudFlare relies on your `http_host` setting to tell CloudFlare which domain/account to clear files from, if you're using multiple contexts they will each need this setting.
-
-Once you have done this, MODX will clear your CloudFlare Cache every time the system-wide cache is cleared, and will clear individual pages (and the parents of the saved page) when they are saved from the MODX manager
-
-##Ignoring a context
-
-If you do not wish PurgeCloudFlare to attempt to clear the CloudFlare cache for a specific context, add a context setting named `cf_skip` and set its value to `1`
-
-##Development mode
-
-MODX will automatically enable development mode when clearing the global cache, this behaviour can be prevented by creating a context setting of `cf_use_dev` and setting it to 0 on any contexts you wish.
-
-Created by Jason Carney - DashMedia.com.au
+##So, what are the differences betweend PurgeCloudFlare and PurgeCloudFlareV4
+PurgeCloudFlareV4 uses the new CloudFlare API V4
