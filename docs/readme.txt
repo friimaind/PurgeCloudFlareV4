@@ -17,7 +17,3 @@ Ignoring a context: if you do not wish PurgeCloudFlare to attempt to clear the C
 Once you have done this, MODX will clear your CloudFlare Cache every time the system-wide cache is cleared, and will clear individual pages when they are saved from the MODX manager
 
 UPDATE: Saving a page will also clear the parents of the saved page (not doing this was confusing many of our clients, so I'd assume you were having similar issues with your own)
-
-Installation Instructions
-
-Install via Package Manager, or grab the static files from our GitHub Repo feel free to report bugs
