@@ -18,6 +18,9 @@ The plugin is not on MODX marketplace so you need to install it manually.
 * Uninstall the previous PurgeCloudFlare
 * Create, if not exists, a new system setting "cloudflare.api_key" and put your **CloudFlare API Key**
 * Create, if not exists, a new system setting "cloudflare.email_address" and put your **CloudFlare Email Address**
-* Create, if not exists, a new system setting "cloudflare.use_dev" and set it to **0** (CloudFlare Development Mode = OFF) or **1** (CloudFlare Development Mode = ON)
 * Create a new plugin [PurgeCache](https://github.com/friimaind/PurgeCloudFlareV4/blob/master/elements/plugins/PurgeCache.php), copy and paste the code, assign to the event "OnBeforeCacheUpdate"
 * Create a new plugin [PurgeSingleFile](https://github.com/friimaind/PurgeCloudFlareV4/blob/master/elements/plugins/PurgeSingleFile.php), copy and paste the code, assign to the event "OnDocFormSave"
+
+**Optional context or system settings**
+* "cloudflare.skip" = 1; ignore this context when clearing global cache
+* "cloudflare.use_dev" = 1; enable CloudFlare Development mode when clearing the global cache
