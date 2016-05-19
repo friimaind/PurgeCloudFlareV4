@@ -30,7 +30,7 @@ if ($mode != 'new') {
 
 $context = $modx->getContext($resource->getOne('Context')->key);
 $skip = $context->getOption('cf_skip') || 0;
-$http_host = str_replace("www.", "", $context->getOption('http_host'));
+$http_host = str_replace("www.", "", $context->getOption('cloudflare.http_host'));
 
 if ($skip != 1 && $page_url && $email && $token) {
     $headers = [
@@ -60,11 +60,11 @@ if ($skip != 1 && $page_url && $email && $token) {
         if ($result['success'] == 1) {
             $modx->log(MODX_LOG_LEVEL_INFO, 'File cleared from CloudFlare cache: ' . $page_url);
         } else {
-            $modx->log(MODX_LOG_LEVEL_ERROR, 'Cloudflare: ' . $result['errors']);
+            $modx->log(MODX_LOG_LEVEL_ERROR, 'Cloudflare: ' . print_r($result['errors']));
         }
 
         curl_close($ch);
     } else {
-        $modx->log(MODX_LOG_LEVEL_ERROR, 'Cloudflare: ' . $result['errors']);
+        $modx->log(MODX_LOG_LEVEL_ERROR, 'Cloudflare: ' . print_r($result['errors']));
     }
 }
