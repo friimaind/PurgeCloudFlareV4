@@ -53,7 +53,7 @@ foreach ($contexts as $context) {
         if ($result['success'] == 1) {
             $modx->log(MODX_LOG_LEVEL_INFO, 'CloudFlare: cache for ' . $http_host . ' successfully cleared');
         } else {
-            $modx->log(MODX_LOG_LEVEL_ERROR, 'CloudFlare (' . $http_host . '):' . $result['errors']);
+            $modx->log(MODX_LOG_LEVEL_ERROR, 'CloudFlare (' . $http_host . '): ' . $result['errors']);
         }
 
         curl_close($ch);
@@ -72,7 +72,7 @@ foreach ($contexts as $context) {
             if ($result['success'] == 1) {
                 $modx->log(MODX_LOG_LEVEL_INFO, 'CloudFlare (' . $http_host . '): Development mode activated');
             } else {
-                $modx->log(MODX_LOG_LEVEL_ERROR, 'CloudFlare (' . $http_host . '):' . $result['errors']);
+                $modx->log(MODX_LOG_LEVEL_ERROR, 'CloudFlare (' . $http_host . '): ' . $result['errors']);
             }
 
             curl_close($ch);
