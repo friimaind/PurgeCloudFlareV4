@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @name PurgeCache
  * @description This is used to clear your CloudFlare cache when the clear cache button is pressed in the main site menu
@@ -51,9 +50,9 @@ foreach ($contexts as $context) {
         $result = json_decode(curl_exec($ch), true);
 
         if ($result['success'] == 1) {
-            $modx->log(MODX_LOG_LEVEL_INFO, 'CloudFlare: cache for ' . $http_host . ' successfully cleared');
+            $modx->log(MODX_LOG_LEVEL_INFO, 'CloudFlare: cache for ' . $http_host . ' [' . $context->key . '] successfully cleared');
         } else {
-            $modx->log(MODX_LOG_LEVEL_ERROR, 'CloudFlare (' . $http_host . '): ' . $result['errors']);
+            $modx->log(MODX_LOG_LEVEL_ERROR, 'CloudFlare (' . $http_host . ' [' . $context->key . '] ): ' . $result['errors']);
         }
 
         curl_close($ch);
@@ -70,9 +69,9 @@ foreach ($contexts as $context) {
             $result = json_decode(curl_exec($ch), true);
 
             if ($result['success'] == 1) {
-                $modx->log(MODX_LOG_LEVEL_INFO, 'CloudFlare (' . $http_host . '): Development mode activated');
+                $modx->log(MODX_LOG_LEVEL_INFO, 'CloudFlare: development mode for ' . $http_host . ' [' . $context->key . '] successfully activated');
             } else {
-                $modx->log(MODX_LOG_LEVEL_ERROR, 'CloudFlare (' . $http_host . '): ' . $result['errors']);
+                $modx->log(MODX_LOG_LEVEL_ERROR, 'CloudFlare (' . $http_host . ' [' . $context->key . '] ): ' . $result['errors']);
             }
 
             curl_close($ch);
@@ -80,4 +79,3 @@ foreach ($contexts as $context) {
         }
     }
 }
-
