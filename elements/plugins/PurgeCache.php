@@ -22,7 +22,7 @@ foreach ($contexts as $context) {
 
     $contextObj = $modx->getContext($context->key);
     $skip = $contextObj->getOption('cf_skip') || 0;
-    $http_host = str_replace("www.", "", $contextObj->getOption('http_host'));
+    $http_host = str_replace("www.", "", $contextObj->getOption('cloudflare.http_host'));
     $dev_mode = intval($contextObj->getOption('cloudflare.use_dev'));
 
     $headers = [
