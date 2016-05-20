@@ -16,19 +16,28 @@ $token = $modx->getOption('cloudflare.api_key');
 /*
  * Get Zone ID
  */
+ 
+$context = $modx->getContext($resource->getOne('Context')->key);
 
-if ($mode != 'new') {
-    $page_url = $modx->makeUrl($resource->get('id'), '', '', 'full');
+// Current page
+$page_url = $modx->makeUrl($resource->get('id'), '', '', 'full');
+
+// Parent
+$parent_id = $resource->get('parent');
+if ($parent_id != 0) {
+    $parent = $modx->getObject('modResource', $parent_id);
+    $parent_url = $modx->makeUrl($parent->get('id'), '', '', 'full');
 } else {
-    // resource created, clear starting at parent
-    $parent_id = $resource->get('parent');
-    if ($parent_id != 0) {
-        $parent = $modx->getObject('modResource', $parent_id);
-        $page_url = $modx->makeUrl($parent->get('id'), '', '', 'full');
-    }
+    $parent_url = NULL;
 }
 
-$context = $modx->getContext($resource->getOne('Context')->key);
+// Homepage
+$site_start_id = $context->getOption('site_start');
+if ($site_start_id != 0) {
+    $homepage = $modx->getObject('modResource', $site_start_id);
+    $homepage_url = $modx->makeUrl($homepage->get('id'), '', '', 'full');
+}
+
 $skip = $context->getOption('cf_skip') || 0;
 $http_host = str_replace("www.", "", $context->getOption('cloudflare.http_host'));
 
@@ -48,7 +57,7 @@ if ($skip != 1 && $page_url && $email && $token) {
 
     if ($result['success'] == 1) {
         $zone_id = $result['result'][0]['id'];
-        $data = array("files" => array($page_url));
+        $data = array("files" => array($page_url, $parent_url, $homepage_url));
 
         $ch = curl_init('https://api.cloudflare.com/client/v4/zones/' . $zone_id . '/purge_cache');
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
