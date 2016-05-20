@@ -19,6 +19,7 @@ The plugin is not on MODX marketplace so you need to install it manually.
 * Create, if not exists, a new system setting "cloudflare.api_key" and put your **CloudFlare API Key**
 * Create, if not exists, a new system setting "cloudflare.email_address" and put your **CloudFlare Email Address**
 * On every context create, if not exists, a new system setting "cloudflare.http_host" and put the **domain** you have created on CloudFlare
+* On every context create, if not exists, a new system setting "site_start" and put the **id of context's homepage**
 * Create a new plugin [PurgeCache](https://github.com/friimaind/PurgeCloudFlareV4/blob/master/elements/plugins/PurgeCache.php), copy and paste the code, assign to the event "OnBeforeCacheUpdate"
 * Create a new plugin [PurgeSingleFile](https://github.com/friimaind/PurgeCloudFlareV4/blob/master/elements/plugins/PurgeSingleFile.php), copy and paste the code, assign to the event "OnDocFormSave"
 
