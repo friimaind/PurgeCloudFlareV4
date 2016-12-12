@@ -42,11 +42,10 @@ $skip = $context->getOption('cf_skip') || 0;
 $http_host = str_replace("www.", "", $context->getOption('cloudflare.http_host'));
 
 if ($skip != 1 && $page_url && $email && $token) {
-    $headers = [
-        'X-Auth-Email: ' . $email,
-        'X-Auth-Key: ' . $token,
-        'Content-Type: application/json'
-    ];
+    $headers = array();
+    $headers[] = 'X-Auth-Email: '. $email;
+    $headers[] = 'X-Auth-Key: '.$token;
+    $headers[] = 'Content-Type: application/json';
     
     $ch = curl_init('https://api.cloudflare.com/client/v4/zones?name=' . $http_host . '&status=active&page=1&per_page=20&order=status&direction=desc&match=all');
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -57,7 +56,7 @@ if ($skip != 1 && $page_url && $email && $token) {
 
     if ($result['success'] == 1) {
         $zone_id = $result['result'][0]['id'];
-        $data = array("files" => array($page_url, $parent_url, $homepage_url));
+        $data = array("files" => array_filter(array($page_url, $parent_url, $homepage_url)));
 
         $ch = curl_init('https://api.cloudflare.com/client/v4/zones/' . $zone_id . '/purge_cache');
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
@@ -67,13 +66,13 @@ if ($skip != 1 && $page_url && $email && $token) {
         $result = json_decode(curl_exec($ch), true);
 
         if ($result['success'] == 1) {
-            $modx->log(MODX_LOG_LEVEL_INFO, 'File cleared from CloudFlare cache: ' . $page_url);
+            $modx->log(modx::LOG_LEVEL_INFO, 'File cleared from CloudFlare cache: ' . $page_url);
         } else {
-            $modx->log(MODX_LOG_LEVEL_ERROR, 'Cloudflare: ' . print_r($result['errors']));
+            $modx->log(modx::LOG_LEVEL_ERROR, 'Cloudflare: ' . print_r($result['errors']));
         }
 
         curl_close($ch);
     } else {
-        $modx->log(MODX_LOG_LEVEL_ERROR, 'Cloudflare: ' . print_r($result['errors']));
+        $modx->log(modx::LOG_LEVEL_ERROR, 'Cloudflare: ' . print_r($result['errors']));
     }
 }
