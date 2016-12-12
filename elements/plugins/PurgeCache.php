@@ -25,11 +25,10 @@ foreach ($contexts as $context) {
     $http_host = str_replace("www.", "", $contextObj->getOption('cloudflare.http_host'));
     $dev_mode = intval($contextObj->getOption('cloudflare.use_dev'));
 
-    $headers = [
-        'X-Auth-Email: ' . $email,
-        'X-Auth-Key: ' . $token,
-        'Content-Type: application/json'
-    ];
+    $headers = array();
+    $headers[] = 'X-Auth-Email: '. $email;
+    $headers[] = 'X-Auth-Key: '.$token;
+    $headers[] = 'Content-Type: application/json';
 
     $ch = curl_init('https://api.cloudflare.com/client/v4/zones?name=' . $http_host . '&status=active&page=1&per_page=20&order=status&direction=desc&match=all');
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -50,9 +49,9 @@ foreach ($contexts as $context) {
         $result = json_decode(curl_exec($ch), true);
 
         if ($result['success'] == 1) {
-            $modx->log(MODX_LOG_LEVEL_INFO, 'CloudFlare: cache for ' . $http_host . ' [' . $context->key . '] successfully cleared');
+            $modx->log(modx::LOG_LEVEL_INFO, 'CloudFlare: cache for ' . $http_host . ' [' . $context->key . '] successfully cleared');
         } else {
-            $modx->log(MODX_LOG_LEVEL_ERROR, 'CloudFlare (' . $http_host . ' [' . $context->key . '] ): ' . print_r($result['errors']));
+            $modx->log(modx::LOG_LEVEL_ERROR, 'CloudFlare (' . $http_host . ' [' . $context->key . '] ): ' . print_r($result['errors']));
         }
 
         curl_close($ch);
@@ -69,9 +68,9 @@ foreach ($contexts as $context) {
             $result = json_decode(curl_exec($ch), true);
 
             if ($result['success'] == 1) {
-                $modx->log(MODX_LOG_LEVEL_INFO, 'CloudFlare: development mode for ' . $http_host . ' [' . $context->key . '] successfully activated');
+                $modx->log(modx::LOG_LEVEL_INFO, 'CloudFlare: development mode for ' . $http_host . ' [' . $context->key . '] successfully activated');
             } else {
-                $modx->log(MODX_LOG_LEVEL_ERROR, 'CloudFlare (' . $http_host . ' [' . $context->key . '] ): ' . print_r($result['errors']));
+                $modx->log(modx::LOG_LEVEL_ERROR, 'CloudFlare (' . $http_host . ' [' . $context->key . '] ): ' . print_r($result['errors']));
             }
 
             curl_close($ch);
